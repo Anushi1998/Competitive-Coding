@@ -30,6 +30,6 @@ void _build(){
 }
 
 int main(){
-	_build;
+	_build();
 	cout<<C(5,3);
 }
