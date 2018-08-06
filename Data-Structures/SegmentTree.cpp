@@ -23,7 +23,7 @@ public:
 		for (int i = 0; i<n; i++) st[n + i] = a[i];
 		for (int i = n - 1; i>0; i--) st[i] = (*f)(st[i << 1], st[i << 1 | 1]);
 	}
-	void build(vector<T> a, T(*f)(T, T)){
+	void build(vector<T> a){
 		n = a.size();
 		st.resize(n + n);
 		for (int i = 0; i<n; i++) st[n + i] = a[i];
