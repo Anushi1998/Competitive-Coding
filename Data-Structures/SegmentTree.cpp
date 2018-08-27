@@ -42,10 +42,6 @@ public:
     }
 };
 
-int n, a[N], dp[N];
-vector<ii > let;
-int fast;
-
 int min_(int a, int b){ return (a<b) ? a : b; }
 int max_(int x, int y){ if (y>x) swap(x, y); return (a[x]>a[y]) ? x : y; }
 int add(int x, int y){ return (x + 0LL + y) % mod; }
