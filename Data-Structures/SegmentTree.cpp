@@ -62,3 +62,5 @@ int main(){
 	mi.print();
 	return 0;
 }
+
+Problem 1 : https://www.codechef.com/viewsolution/19595751
