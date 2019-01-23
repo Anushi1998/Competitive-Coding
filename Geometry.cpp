@@ -5,7 +5,7 @@ const int N=100010;
 const int mod=1e9+7;
 const double inf=mod*1.0*mod;
 const double eps=1e-9;
-const double pi=3.141592653589793238462643383279502884197169399375105820974944;
+const double pi=acos(-1);
 
 int inline add(int a,int b){int res=(a+b)%mod;return (res<0)?res+mod:res;}
 int inline mul(int a,int b){int res=(a*1LL*b)%mod;return (res<0)?res+mod:res;}
