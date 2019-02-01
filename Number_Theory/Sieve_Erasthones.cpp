@@ -11,7 +11,7 @@ void seive(){
   bs.set();
   for(int i=2;i<seive_size;i++)
     if(bs[i]){
-      for(long long int j=i*1LL*i;j<seive_size;j++)
+      for(long long int j=i*1LL*i;j<seive_size;j+=i)
         bs[j]=0;
       primes.push_back(i);
     }
