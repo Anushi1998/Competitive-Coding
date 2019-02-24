@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import subprocess
 import sys
+import time
 
 ok=0
 
@@ -25,7 +26,9 @@ if type=='0':
         Wrong.close()
         Correct.close()
         cnt=cnt+1
-        print(cnt)
+        sys.stdout.write("\r"+str(cnt))
+        sys.stdout.flush()
+
 
 else:
     print('Running Timed cases')

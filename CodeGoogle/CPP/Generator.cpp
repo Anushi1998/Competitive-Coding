@@ -5,10 +5,9 @@
 using namespace std;
 ofstream fout ("..//TXT//Test.txt");
 const int mod=1e9+7;
-int val=50;
 const long long ll=1000000000000000001LL;
 int operations=1e8;
-const int N=1000;
+const int N=100001;
 
 unsigned long long llrand() {
     unsigned long long r = 0;
@@ -21,26 +20,31 @@ unsigned int seed=random_device{}();
 mt19937 gen(seed);
 uniform_int_distribution<>dis(numeric_limits<int>::lowest(),std::numeric_limits<int>::max());
 
-#define int long long
-
-int t;
-int n;
-int a[N];
-int q,p;
-
 signed main(){
-    srand(time(0));
-    t=1;
-    fout<<t<<endl;
-    while(t--){
-        n=10;
-        q=rand()%10000+1;
-        p=rand()%10000;
-        while(p>=q) p=rand()%10000;
-        fout<<n<<' '<<p<<' '<<q<<endl;
-        for(int i=0;i<n;i++)
-        fout<<rand()%100+1<<' ';
-        fout<<endl;
+    srand(time(NULL));
+    int n=10,q=100000;
+    fout<<n<<endl;
+    for(int i=0;i<n;i++){
+        int a=rand()%N;
+        if(a>=0 || a<=N) fout<<a<<' ';
+    }
+    fout<<endl;
+    for(int i=0;i<n;i++){
+        int a=rand()%N;
+        if(a>=0 || a<=N) fout<<a<<' ';
+    }
+    fout<<endl;
+    fout<<q<<endl;
+    for(int i=0;i<q;i++){
+        int l=rand()%n + 1;
+        int r=rand()%n + 1;
+        while(l>r){
+        l=rand()%n + 1;
+        r=rand()%n + 1;
+        }
+        int c=rand()%N;
+        int d=rand()%N;
+        fout<<l<<' '<<r<<' '<<c<<' '<<d<<endl;
     }
     return 0;
 }

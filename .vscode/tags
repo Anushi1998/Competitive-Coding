@@ -1,0 +1,26 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Correct	../CodeGoogle/MAKE/run.py	/^        Correct=open("..\/\/TXT\/\/Correct.txt","w")$/;"	kind:variable	line:17
+Test	../CodeGoogle/MAKE/run.py	/^        Test=open("..\/\/TXT\/\/Test.txt","r")$/;"	kind:variable	line:19
+Test	../CodeGoogle/MAKE/run.py	/^        Test=open("..\/\/TXT\/\/Test.txt","r")$/;"	kind:variable	line:22
+Test	../CodeGoogle/MAKE/run.py	/^        Test=open("..\/\/TXT\/\/Test.txt","r")$/;"	kind:variable	line:38
+Wrong	../CodeGoogle/MAKE/run.py	/^        Wrong=open("..\/\/TXT\/\/Wrong.txt","w")$/;"	kind:variable	line:16
+Wrong	../CodeGoogle/MAKE/run.py	/^        Wrong=open("..\/\/TXT\/\/Wrong.txt","w")$/;"	kind:variable	line:36
+cnt	../CodeGoogle/MAKE/run.py	/^        cnt=cnt+1$/;"	kind:variable	line:28
+cnt	../CodeGoogle/MAKE/run.py	/^        cnt=cnt+1$/;"	kind:variable	line:42
+cnt	../CodeGoogle/MAKE/run.py	/^cnt=0$/;"	kind:variable	line:10
+cnt	../CodeGoogle/PY/long.py	/^            cnt=cnt+1$/;"	kind:variable	line:12
+cnt	../CodeGoogle/PY/long.py	/^    cnt=0$/;"	kind:variable	line:4
+long.py	../CodeGoogle/PY/long.py	1;"	kind:file	line:1
+ok	../CodeGoogle/MAKE/run.py	/^        ok=subprocess.call("..\/\/OUT\/\/Correct.out",stdin=Test,stdout=Correct)$/;"	kind:variable	line:23
+ok	../CodeGoogle/MAKE/run.py	/^        ok=subprocess.call("..\/\/OUT\/\/Wrong.out", stdin=Test, stdout=Wrong, timeout=0.5)$/;"	kind:variable	line:39
+ok	../CodeGoogle/MAKE/run.py	/^ok=0$/;"	kind:variable	line:6
+ok	../CodeGoogle/PY/long.py	/^            ok=1$/;"	kind:variable	line:10
+ok	../CodeGoogle/PY/long.py	/^            ok=1$/;"	kind:variable	line:8
+ok	../CodeGoogle/PY/long.py	/^    ok=0$/;"	kind:variable	line:3
+run.py	../CodeGoogle/MAKE/run.py	1;"	kind:file	line:1
+type	../CodeGoogle/MAKE/run.py	/^type = sys.argv[1]$/;"	kind:variable	line:11
