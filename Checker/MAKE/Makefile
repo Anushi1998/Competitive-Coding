@@ -5,17 +5,17 @@ Run : Compile
 	../OUT/Checker.out
 
 Compile:
-	g++ -pipe -O2 -lm -s -fomit-frame-pointer ../CPP/Generator.cpp -o ../OUT/Generator.out
-	g++ -pipe -O2 -lm -s -fomit-frame-pointer ../CPP/Wrong.cpp -o ../OUT/Wrong.out
-	g++ -pipe -O2 -lm -s -fomit-frame-pointer ../CPP/Correct.cpp -o ../OUT/Correct.out
-	g++ -pipe -O2 -lm -s -fomit-frame-pointer ../CPP/Checker.cpp -o ../OUT/Checker.out
+	g++ -std=c++11 -pipe -O2 -lm -fomit-frame-pointer ../CPP/Generator.cpp -o ../OUT/Generator.out
+	g++ -std=c++11 -pipe -O2 -lm -fomit-frame-pointer ../CPP/Wrong.cpp -o ../OUT/Wrong.out
+	g++ -std=c++11 -pipe -O2 -lm -fomit-frame-pointer ../CPP/Correct.cpp -o ../OUT/Correct.out
+	g++ -std=c++11 -pipe -O2 -lm -fomit-frame-pointer ../CPP/Checker.cpp -o ../OUT/Checker.out
 
 Check:
 	../OUT/Wrong.out <../TXT/Test.txt
 	../OUT/Correct.out <../TXT/Test.txt
 
 Wrong:
-	g++ -pipe -O2 -lm -s -fomit-frame-pointer ../CPP/Wrong.cpp -o ../OUT/Wrong.out
+	g++ -std=c++11 -pipe -O2 -lm -fomit-frame-pointer ../CPP/Wrong.cpp -o ../OUT/Wrong.out
 	../OUT/Wrong.out <../TXT/Test.txt
 
 Debug:

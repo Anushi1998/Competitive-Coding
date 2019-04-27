@@ -1,92 +1,97 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int N=100010;
+const int N=500010;
+const int M=25;
 const int mod=1e9+7;
 
 int add(int x,int y){int res=(x+y)%mod;return res<0?res+mod:res;}
 int mul(int x,int y){int res=(x*1LL*y)%mod;return res<0?res+mod:res;}
 
 #define ii pair<int,int>
-#define ll pair<long long,long long>
-
-struct node{
-    long long a;
-    long long b;
-    node* left;
-    node* right;
-    node():a(0),b(0),left(NULL),right(NULL){};
-    node(int _a,int _b):a(_a),b(_b),left(NULL),right(NULL){};
-    void sum(){
-        a=left->a+right->a;
-        b=left->b+right->b;
-    }
-};
-
 
 int n;
-int a[N],b[N];
-pair<double,int> rat[N];
-int l,r;
-ii v;
-node* pers[N];
+int p[N];
+vector<int> tree[N];
+vector<int> lev[N];
 
-node* build(int i,int j,node* pre){
-    if(i>r || j<l) return pre;
-    if(i>=l && j<=r) return new node{v.first,v.second};
-    int mid=(i+j)>>1;
-    node* cur=new node();
-    cur->left=build(i,mid,pre->left);
-    cur->right=build(mid+1,j,pre->right);
-    cur->sum();
-    return cur;
+vector<int> nf;
+vector<pair<int,int> >f;
+
+int level[N],in[N];
+vector<int> euler;
+bitset<N> v;
+int spt[M][3000000];
+
+void dfs(int id){
+    in[id]=(int)euler.size(),v[id]=1;
+    lev[level[id]].push_back(id);
+    euler.push_back(id);
+    for(auto &i:tree[id]) {
+        if(!v[i]) level[i]=level[id]+1,dfs(i);
+        euler.push_back(id);
+    }
+    euler.push_back(id);
 }
 
-node* init(int i=0,int j=n-1){
-    if(i==j) return new node();
-    int mid=(i+j)>>1;
-    node* cur=new node();
-    cur->left=init(i,mid);
-    cur->right=init(mid+1,j);
-    return cur;
+void preLCA(){
+    for(int i=0;i<euler.size();i++) spt[0][i]=euler[i];
+    for(int j=1;(1<<j)<=euler.size();j++) for(int i=0;i+(1<<j)-1<euler.size();i++) {
+            spt[j][i]=(level[spt[j-1][i]]<level[spt[j-1][i+(1<<(j-1))]])?spt[j-1][i]:spt[j-1][i+(1<<(j-1))];
+        }
 }
 
-ll query(int i,int j,node* pre, node* nex){
-    if(i>r || j<l) return {0,0};
-    if(i>=l && j<=r) return {nex->a-pre->a,nex->b-pre->b};
-    int mid=(i+j)>>1;
-    ll L=query(i,mid,pre->left,nex->left);
-    ll R=query(mid+1,j,pre->right,nex->right);
-    return {L.first+R.first,L.second+R.second};
+int LCA(int i,int j){
+    i=in[i],j=in[j];if(i>j) swap(i,j);
+    int k=1;
+    while((1LL<<k) <= (j-i+1)) k++;k--;
+    // log2(j-i+1.0);
+    return (level[spt[k][i]]<level[spt[k][j-(1<<k)+1]])?spt[k][i]:spt[k][j-(1<<k)+1];
 }
 
-signed main(){
-    int q,c,d;
+int main(){
     cin>>n;
-    pers[0]=init();
-    for(int i=1;i<=n;i++) cin>>a[i];
-    for(int i=1;i<=n;i++) cin>>b[i];
-    cin>>q;
-    for(int i=1;i<=n;i++)
-        rat[i].first=(b[i]==0)?mod:(double)a[i]/b[i],rat[i].second=i;
-    sort(rat+1,rat+n+1,[](pair<double,int> i,pair<double,int> j){
-        return i.first<j.first;
-    });
-    rat[0]={0.0,0};
-    for(int i=1;i<=n;i++) {
-        l=r=rat[i].second;
-        v.first=a[l],v.second=b[l];
-        pers[i]=build(1,n,pers[i-1]);
+    for(int i=2;i<=n;i++) {
+        cin>>p[i];
+        tree[p[i]].push_back(i);
     }
-
-    while(q--){
-        cin>>l>>r>>c>>d;
-        double ra=(c==0)?mod:(double)d/c;
-        int L=lower_bound(rat+1,rat+n+1,make_pair(ra,0LL))-rat;
-        ll R=query(1,n,pers[L-1],pers[n]);
-        long long ans=(R.first*1LL*c)-(R.second*1LL*d);
-        cout<<ans<<endl;
+    dfs(1);
+    preLCA();
+    
+    for(int i=0;i<N;i++){
+        while(lev[i].size()>2){
+            int _1=lev[i].back();lev[i].pop_back();
+            int _2=lev[i].back();lev[i].pop_back();
+            int _3=lev[i].back();lev[i].pop_back();
+            
+            if(level[LCA(_1,_2)]>level[LCA(_2,_3)]){
+                lev[i].push_back(_3);
+                f.push_back({_2,_1});
+            }
+            else if(level[LCA(_1,_2)]==level[LCA(_2,_3)]){
+                if(LCA(_1,_2)!=LCA(_2,_3)) throw SIGSEGV;
+                lev[i].push_back(_3);
+                f.push_back({_2,_1});
+            }
+            else{
+                lev[i].push_back(_1);
+                f.push_back({_3,_2});
+            }
+        }
+        if(lev[i].size()==1){
+            nf.push_back(lev[i][0]);
+        }
+        else if(lev[i].size()==2){
+            f.push_back({lev[i][0],lev[i][1]});
+        }
     }
-
+    
+    sort(nf.begin(),nf.end());
+    sort(f.begin(),f.end());
+    cout<<nf.size()<<endl;
+    // for(auto i:nf) cout<<i<<' ';cout<<endl;
+    cout<<f.size()<<endl;
+    // for(auto i:f) cout<<i.first<<' '<<i.second<<endl;
+    
     return 0;
 }

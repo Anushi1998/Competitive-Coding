@@ -10,6 +10,12 @@ int mul(int x,int y){int res=(x*1LL*y)%mod;return res<0?res+mod:res;}
 #define ii pair<int,int>
 
 int main(){
-    
+    int t=1;
+    cin>>t;
+    while(t--){
+        yo();
+    }
     return 0;
 }
+
+

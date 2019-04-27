@@ -1,121 +1,94 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define N 100111
-#define ll long long
 
-typedef pair<ll,ll> pt;
-#define x first
-#define y second
+const int N=500010;
+const int M=25;
+const int mod=1e9+7;
 
-pt add(pt a, pt b) {
-    return make_pair(a.x + b.x, a.y + b.y);
-}
-ll cross(pt a, pt b) {
-    return a.x * b.y - a.y * b.x;
-}
+int add(int x,int y){int res=(x+y)%mod;return res<0?res+mod:res;}
+int mul(int x,int y){int res=(x*1LL*y)%mod;return res<0?res+mod:res;}
 
-bool crosscomp(pt a, pt b) {
-    return cross(a, b) > 0;
-}
-ll xs[N];
-ll ys[N];
+#define ii pair<int,int>
+
 int n;
+int p[N];
+vector<int> tree[N];
+vector<int> lev[N];
 
-vector<pt> pts;
-pt zero = make_pair(0LL, 0LL);
-struct tree {
-    pt a, b;
-    pt total;
-    tree *l, *r;
-    tree(pt a, pt b, pt total, tree *l, tree *r): a(a), b(b), total(total), l(l), r(r) {}
+vector<int> nf;
+vector<pair<int,int> >f;
 
-    tree *insert(pt v) {
-        if ((v.x || v.y) && cross(a, v) >= 0 && cross(v, b) >= 0) {
-            if (l) {
-                tree *nl = l->insert(v);
-                tree *nr = r->insert(v);
-                return new tree(a, b, add(nl->total, nr->total), nl, nr);
-            } else {
-                return new tree(a, b, add(total, v), l, r);
+int level[N],in[N];
+vector<int> euler;
+bitset<N> v;
+int spt[M][3000000];
+
+void dfs(int id){
+    in[id]=(int)euler.size(),v[id]=1;
+    lev[level[id]].push_back(id);
+    euler.push_back(id);
+    for(auto &i:tree[id]) {
+        if(!v[i]) level[i]=level[id]+1,dfs(i);
+        euler.push_back(id);
+    }
+    euler.push_back(id);
+}
+
+void preLCA(){
+    for(int i=0;i<euler.size();i++) spt[0][i]=euler[i];
+    for(int j=1;(1<<j)<=euler.size();j++) for(int i=0;i+(1<<j)-1<euler.size();i++) {
+            spt[j][i]=(level[spt[j-1][i]]<level[spt[j-1][i+(1<<(j-1))]])?spt[j-1][i]:spt[j-1][i+(1<<(j-1))];
+        }
+}
+
+int LCA(int i,int j){
+    i=in[i],j=in[j];if(i>j) swap(i,j);
+    int k=1;
+    while((1LL<<k) <= (j-i+1)) k++;k--;
+    // log2(j-i+1.0);
+    return (level[spt[k][i]]<level[spt[k][j-(1<<k)+1]])?spt[k][i]:spt[k][j-(1<<k)+1];
+}
+
+bitset<N> ok;
+#define iii pair<int,ii> 
+
+int main(){
+    cin>>n;
+    for(int i=2;i<=n;i++) {
+        cin>>p[i];
+        tree[p[i]].push_back(i);
+    }
+    dfs(1);
+    preLCA();
+    
+    for(int i=0;i<N;i++){
+        vector<iii> xd;
+        for(int j=0;j<lev[i].size();j++){
+            for(int k=j+1;k<lev[i].size();k++){
+                xd.push_back({level[LCA(lev[i][j],lev[i][k])],{lev[i][j],lev[i][k]}});
             }
-        } else {
-            return this;
+        }
+        sort(xd.begin(),xd.end(),[](iii aa,iii bb){
+            return aa.first<bb.first;
+        });
+
+        while(!xd.empty()){
+            iii oo=xd.back();xd.pop_back();
+            if(ok[oo.second.first] || ok[oo.second.second]) continue;
+            f.push_back({oo.second.first,oo.second.second});
+            ok[oo.second.first]=ok[oo.second.second]=1;
+        }
+
+        for(auto j:lev[i]){
+            if(!ok[j]) nf.push_back({j});
         }
     }
-
-    pt query(pt v) {
-        if (cross(a, v) < 0) {
-            return zero;
-        } else if (cross(b, v) >= 0) {
-            return total;
-        } else {
-            return add(l->query(v), r->query(v));
-        }
-    }
-
-    void print(int indent = 0) {
-        for (int i = 0; i < indent; i++) printf("  ");
-        printf("(%lld %lld) (%lld %lld): total=(%lld %lld)\n", a.x, a.y, b.x, b.y, total.x, total.y);
-        if (l) {
-            l->print(indent+1);
-            r->print(indent+1);
-        }
-    }
-};
-
-tree *make_tree(int i, int j) {
-    tree *l, *r;
-    if (i == j) {
-        l = r = NULL;
-    } else {
-        int k = i + j >> 1;
-        l = make_tree(i, k);
-        r = make_tree(k+1, j);
-    }
-    return new tree(pts[i], pts[j], zero, l, r);
-}
-
-tree *trees[N];
-void init() {
-    vector<pt> opts;
-    for (int i = 0; i < n; i++) {
-        if (xs[i] || ys[i]) opts.push_back(make_pair(xs[i], ys[i]));
-    }
-    sort(opts.begin(), opts.end(), crosscomp);
-    for (int i = 0; i < opts.size(); i++) {
-        if (!i || cross(opts[i], opts[i-1]) != 0) pts.push_back(opts[i]);
-    }
-    trees[0] = make_tree(0, pts.size()-1);
-    for (int i = 0; i < n; i++) {
-        trees[i+1] = trees[i]->insert(make_pair(xs[i], ys[i]));
-    }
-    // // print trees
-    // for (int i = 0; i <= n; i++) {
-    //     trees[i]->print();
-    // }
-}
-
-ll _query(int i, pt v) {
-    return cross(trees[i]->query(v), v);
-}
-
-ll query(int l, int r, ll x, ll y) {
-    pt v = make_pair(x, y);
-    return _query(r, v) - _query(l, v);
-}
-
-int main() {
-    scanf("%d", &n);
-    for (int i = 0; i < n; i++) scanf("%lld", &xs[i]);
-    for (int i = 0; i < n; i++) scanf("%lld", &ys[i]);
-    init();
-    int q;
-    scanf("%d", &q);
-    while (q--) {
-        int l, r;
-        ll x, y;
-        scanf("%d%d%lld%lld", &l, &r, &y, &x);
-        printf("%lld\n", x == 0 && y == 0 ? 0LL : query(--l, r, x, y));
-        fflush(stdout);
-    }
+    sort(nf.begin(),nf.end());
+    sort(f.begin(),f.end());
+    cout<<nf.size()<<endl;
+    // for(auto i:nf) cout<<i<<' ';cout<<endl;
+    cout<<f.size()<<endl;
+    // for(auto i:f) cout<<i.first<<' '<<i.second<<endl;
+    
+    return 0;
 }
