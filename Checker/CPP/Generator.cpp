@@ -16,20 +16,34 @@ unsigned long long llrand() {
     return (r % mod)+1;
 }
 
-// unsigned int seed=random_device{}();
-// mt19937 gen(seed);
-// uniform_int_distribution<>dis(numeric_limits<int>::lowest(),std::numeric_limits<int>::max());
+unsigned int seed=random_device{}();
+mt19937 gen(seed);
+uniform_int_distribution<>dis(numeric_limits<int>::lowest(),std::numeric_limits<int>::max());
 
 signed main(){
     srand(time(NULL));
-    int n=100;
+    int n=10;
+    int len=10;
+    int queries = 10000; 
 
     fout<<n<<endl;
     
-    for(int i=2;i<=n;i++){
-        int p=rand()%(i-1);
-        p++;
-        fout<<p<<' ';
+    // Reducing character set to allowing matching data.
+    while(n--) {
+        std::string a;
+        for(int i=0;i<len;i++){
+            a += 'a' + (rand()%10);
+        }
+        fout<<a<<endl;
+    }
+
+    fout<<queries<<endl;
+    while(queries--) {
+        std::string a;
+        for(int i=0;i<len;i++){
+            a += 'a' + (rand()%10);
+        }
+        fout<<a<<endl;
     }
     return 0;
 }

@@ -5,7 +5,7 @@ import time
 
 ok=0
 
-subprocess.call(["make","Compile"])
+# subprocess.call(["make","Compile"])
 
 cnt=0
 type = sys.argv[1]

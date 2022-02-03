@@ -1,19 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
-ifstream W ("/home/anushi/CLionProjects/Complete/Wrong.txt");
-ifstream C ("/home/anushi/CLionProjects/Complete/Correct.txt");
+ifstream W ("..//TXT//Wrong.txt");
+ifstream C ("..//TXT//Correct.txt");
 
 int main(){
 	cout<<"CHECKER\n";
-	long long int shi,glt;
+	int right, wrong;
 	int i=1;
-	while(W>>glt && C>>shi){
-		// cout<<shi<<" "<<glt<<" ";
-		if(shi!=glt){
-			cout<<shi<<" "<<glt<<endl;
+	while(W>>wrong && C>>right){
+		if(right!=wrong){
+			cout<<right<<" "<<wrong<<endl;
 			return 1;
 		}
-		// i++;
 	}
 	return 0;
 }
