@@ -19,31 +19,45 @@ unsigned long long llrand() {
 unsigned int seed=random_device{}();
 mt19937 gen(seed);
 uniform_int_distribution<>dis(numeric_limits<int>::lowest(),std::numeric_limits<int>::max());
+uniform_int_distribution<>dis2(1,100);
+
+int p[N];
+vector<int> levelTree[N];
+int maxLevel=0;
+
+void generateTree(int n) {
+    int level=0;
+    maxLevel=1;
+    levelTree[0].clear();levelTree[1].clear();
+    levelTree[level].push_back(1);
+    for(int i=2;i<=n;i++) {
+        level=(rand()%maxLevel)+1;
+        if(level==maxLevel) {
+            maxLevel++;
+            levelTree[maxLevel].clear();
+        }
+        levelTree[level].push_back(i);
+        int who=rand()%levelTree[level-1].size();
+        p[i]=levelTree[level-1][who];
+    }
+}
 
 signed main(){
     srand(time(NULL));
-    int n=10;
-    int len=10;
-    int queries = 10000; 
+    int t=10;
+    int n,k;
 
-    fout<<n<<endl;
-    
-    // Reducing character set to allowing matching data.
-    while(n--) {
-        std::string a;
-        for(int i=0;i<len;i++){
-            a += 'a' + (rand()%10);
+    fout<<t<<endl;
+
+    while(t--) {
+        int n=5;
+        fout<<n<<endl;
+        for(int i=0;i<n;i++) {
+            int num=rand()%10;
+            fout<<(num+1)<<' ';
         }
-        fout<<a<<endl;
+        fout<<endl;
     }
 
-    fout<<queries<<endl;
-    while(queries--) {
-        std::string a;
-        for(int i=0;i<len;i++){
-            a += 'a' + (rand()%10);
-        }
-        fout<<a<<endl;
-    }
     return 0;
 }

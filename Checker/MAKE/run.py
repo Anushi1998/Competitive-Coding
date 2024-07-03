@@ -28,15 +28,13 @@ if type=='0':
         cnt=cnt+1
         sys.stdout.write("\r"+str(cnt))
         sys.stdout.flush()
-
-
 else:
     print('Running Timed cases')
     while not ok:
         Wrong=open("..//TXT//Wrong.txt","w")
         subprocess.call("../OUT//Generator.out")
         Test=open("..//TXT//Test.txt","r")
-        ok=subprocess.call("..//OUT//Wrong.out", stdin=Test, stdout=Wrong, timeout=0.5)
+        ok=subprocess.call("..//OUT//Wrong.out", stdin=Test, stdout=Wrong, timeout=2)
         Test.close()
         Wrong.close()
         cnt=cnt+1
