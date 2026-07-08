@@ -51,10 +51,12 @@ signed main(){
 
     while(t--) {
         int n=5;
+    
         fout<<n<<endl;
-        for(int i=0;i<n;i++) {
-            int num=rand()%10;
-            fout<<(num+1)<<' ';
+    
+        for(int i=1;i<=n;i++) {
+            int r=rand()%7;
+            fout<<r<<' ';
         }
         fout<<endl;
     }

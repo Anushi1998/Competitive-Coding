@@ -1,0 +1,15 @@
+Yousef is given a tree∗ of 𝑛 vertices numbered from 1 to 𝑛.
+
+Let 𝑆 be the set of all leaves† of the given tree (this set is determined from the original tree and does not change).
+
+Yousef repeats the following process until the number of unchosen vertices is at most one:
+
+    Choose two distinct vertices 𝑢,𝑣∈𝑆 that have not been chosen before.
+    Add 𝑑(𝑢,𝑣) to the total cost, where 𝑑(𝑢,𝑣) is the number of edges on the simple path between 𝑢 and 𝑣.
+    Mark 𝑢 and 𝑣 as chosen. 
+
+Your task is to help Yousef determine the minimum possible total cost achievable after the process ends.
+
+∗A tree is an undirected connected graph in which there are no cycles.
+
+†A leaf of a tree is a vertex that is connected to at most one other vertex.

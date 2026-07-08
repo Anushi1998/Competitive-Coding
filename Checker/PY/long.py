@@ -63,3 +63,4 @@ for j in range(n):
 cnt=cnt//2
 print(cnt)
 
+c
